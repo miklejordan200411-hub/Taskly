@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 focus:ring-slate-300;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  .input {
+    @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500;
+  }
+  .card {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+}
+
+/* Gantt chart */
+.gantt-bar {
+  @apply rounded-md text-white text-xs px-1.5 py-0.5 truncate cursor-pointer hover:opacity-80 transition-opacity;
+}
+
+/* Kanban */
+.kanban-col {
+  @apply flex flex-col gap-2 p-3 rounded-xl min-h-[300px] w-full;
+}
+
+/* Priority colors */
+.priority-1 { @apply bg-slate-100 text-slate-600; }
+.priority-2 { @apply bg-blue-100 text-blue-700; }
+.priority-3 { @apply bg-yellow-100 text-yellow-700; }
+.priority-4 { @apply bg-orange-100 text-orange-700; }
+.priority-5 { @apply bg-red-100 text-red-700; }
+
+/* ── Landing page ── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.landing-fade-up { animation: fadeUp 0.8s ease both; }
+.landing-d1 { animation-delay: 0.1s; }
+.landing-d2 { animation-delay: 0.2s; }
+.landing-d3 { animation-delay: 0.35s; }
+.landing-d4 { animation-delay: 0.5s; }
+.landing-float { animation: float 6s ease-in-out infinite; }
+
+.landing-feature-card {
+  transition: transform 0.3s, border-color 0.3s, background 0.3s;
+}
+.landing-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  background: rgba(139, 92, 246, 0.07) !important;
+}
+.landing-step-card { transition: transform 0.3s; }
+.landing-step-card:hover { transform: translateY(-4px); }
+
+.landing-btn-p { transition: all 0.25s; }
+.landing-btn-p:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 48px rgba(124, 58, 237, 0.6) !important;
+}
+.landing-btn-g { transition: all 0.25s; }
+.landing-btn-g:hover {
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+.landing-nav-link { transition: color 0.2s; }
+.landing-nav-link:hover { color: white !important; }
