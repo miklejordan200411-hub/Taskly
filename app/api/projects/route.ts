@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/lib/db'
 import { getSession, generateInviteCode } from '@/lib/auth'
 
-// GET /api/projects - list projects for current user
 export async function GET() {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -20,25 +19,24 @@ export async function GET() {
   return NextResponse.json(rows)
 }
 
-// POST /api/projects - create project
 export async function POST(req: NextRequest) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { name } = await req.json()
+  const { name, start_date } = await req.json()
   if (!name?.trim()) return NextResponse.json({ error: 'Name required' }, { status: 400 })
 
   const invite_code = generateInviteCode()
+  const startDate = start_date || new Date().toISOString().split('T')[0]
 
   const rows = await query(
-    `INSERT INTO projects (name, creator_id, invite_code)
-     VALUES ($1, $2, $3)
+    `INSERT INTO projects (name, creator_id, invite_code, start_date)
+     VALUES ($1, $2, $3, $4)
      RETURNING *`,
-    [name.trim(), session.sub, invite_code]
+    [name.trim(), session.sub, invite_code, startDate]
   )
   const project = rows[0]
 
-  // Add creator as manager
   await query(
     `INSERT INTO project_members (project_id, user_id, role, hours_per_day)
      VALUES ($1, $2, 'manager', 8)`,

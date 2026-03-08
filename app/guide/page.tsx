@@ -1,35 +1,44 @@
 import Link from 'next/link'
+import { getSession } from '@/lib/auth'
 
-export default function GuidePage() {
+export default async function GuidePage() {
+  const session = await getSession()
+
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
         <Link href="/" className="text-xl font-bold text-indigo-600">Taskly</Link>
         <div className="flex gap-3">
-          <Link href="/login" className="btn-secondary">Войти</Link>
-          <Link href="/register" className="btn-primary">Начать →</Link>
+          {session ? (
+            <Link href="/projects" className="btn-primary">My projects →</Link>
+          ) : (
+            <>
+              <Link href="/login" className="btn-secondary">Login</Link>
+              <Link href="/register" className="btn-primary">Get started →</Link>
+            </>
+          )}
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-16">
         <div className="mb-10">
-          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600 transition-colors">← На главную</Link>
-          <h1 className="text-4xl font-bold text-slate-800 mt-4 mb-3">Инструкция</h1>
-          <p className="text-slate-500 text-lg">Всё что нужно знать чтобы начать работу с Taskly</p>
+          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600 transition-colors">← Back to home</Link>
+          <h1 className="text-4xl font-bold text-slate-800 mt-4 mb-3">Guide</h1>
+          <p className="text-slate-500 text-lg">Everything you need to know to get started with Taskly</p>
         </div>
 
         {/* Contents */}
         <div className="card p-5 mb-10">
-          <h2 className="font-semibold text-slate-700 mb-3 text-sm uppercase tracking-wide">Содержание</h2>
+          <h2 className="font-semibold text-slate-700 mb-3 text-sm uppercase tracking-wide">Contents</h2>
           <ul className="space-y-1">
             {[
-              ['#start', '1. Быстрый старт'],
-              ['#roles', '2. Роли: менеджер и работник'],
-              ['#projects', '3. Проекты и invite-коды'],
-              ['#tasks', '4. Задачи'],
-              ['#optimize', '5. Оптимизация'],
-              ['#views', '6. Виды плана'],
-              ['#algo', '7. Как работает алгоритм'],
+              ['#start', '1. Quick start'],
+              ['#roles', '2. Roles: manager and worker'],
+              ['#projects', '3. Projects and invite codes'],
+              ['#tasks', '4. Tasks'],
+              ['#optimize', '5. Optimization'],
+              ['#views', '6. Plan views'],
+              ['#algo', '7. How the algorithm works'],
             ].map(([href, label]) => (
               <li key={href}>
                 <a href={href} className="text-sm text-indigo-600 hover:underline">{label}</a>
@@ -41,14 +50,14 @@ export default function GuidePage() {
         <div className="space-y-12">
           {/* 1 */}
           <section id="start">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">1. Быстрый старт</h2>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">1. Quick start</h2>
             <div className="space-y-4">
               {[
-                { step: '1', title: 'Зарегистрируйся', desc: 'Перейди на /register, введи username, email и пароль. Это займёт 30 секунд.' },
-                { step: '2', title: 'Создай проект', desc: 'На странице проектов нажми "+ New Project", введи название. Ты автоматически становишься менеджером.' },
-                { step: '3', title: 'Пригласи команду', desc: 'Скопируй invite-код проекта (он виден в карточке проекта) и отправь коллегам. Они вводят его на странице проектов в поле "Join by code".' },
-                { step: '4', title: 'Добавь задачи', desc: 'Открой проект, нажми "+ Task". Заполни название, длительность в часах, нужный навык, приоритет и дедлайн.' },
-                { step: '5', title: 'Запусти оптимизацию', desc: 'Нажми кнопку "✨ Optimize". Алгоритм за секунды распределит все задачи по команде.' },
+                { step: '1', title: 'Register', desc: 'Go to /register, enter your username, email and password. Takes 30 seconds.' },
+                { step: '2', title: 'Create a project', desc: 'On the projects page click "+ New Project", enter a name. You automatically become the manager.' },
+                { step: '3', title: 'Invite your team', desc: 'Copy the invite code from the project card and send it to colleagues. They enter it in the "Join by code" field.' },
+                { step: '4', title: 'Add tasks', desc: 'Open the project, click "+ Task". Fill in the name, duration in hours, required skill, priority and deadline.' },
+                { step: '5', title: 'Run optimization', desc: 'Click "✨ Optimize". The algorithm will distribute all tasks across the team in seconds.' },
               ].map((s) => (
                 <div key={s.step} className="flex gap-4">
                   <div className="shrink-0 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">{s.step}</div>
@@ -63,16 +72,16 @@ export default function GuidePage() {
 
           {/* 2 */}
           <section id="roles">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">2. Роли</h2>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">2. Roles</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="card p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">👔</span>
-                  <span className="font-semibold text-slate-800">Менеджер</span>
+                  <span className="font-semibold text-slate-800">Manager</span>
                   <span className="badge bg-indigo-100 text-indigo-700 text-xs">manager</span>
                 </div>
                 <ul className="space-y-1.5 text-sm text-slate-500">
-                  {['Создаёт проект', 'Добавляет/редактирует задачи', 'Запускает оптимизацию', 'Назначает исполнителей', 'Удаляет проект'].map(t => (
+                  {['Creates a project', 'Adds/edits tasks', 'Runs optimization', 'Assigns members', 'Deletes project'].map(t => (
                     <li key={t} className="flex gap-2"><span className="text-indigo-400">✓</span>{t}</li>
                   ))}
                 </ul>
@@ -80,11 +89,11 @@ export default function GuidePage() {
               <div className="card p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">👷</span>
-                  <span className="font-semibold text-slate-800">Работник</span>
+                  <span className="font-semibold text-slate-800">Worker</span>
                   <span className="badge bg-slate-100 text-slate-600 text-xs">worker</span>
                 </div>
                 <ul className="space-y-1.5 text-sm text-slate-500">
-                  {['Присоединяется по коду', 'Видит свои задачи', 'Меняет статус задач', 'Пишет комментарии', 'Указывает навыки'].map(t => (
+                  {['Joins by code', 'Views their tasks', 'Updates task status', 'Writes comments', 'Sets their skills'].map(t => (
                     <li key={t} className="flex gap-2"><span className="text-slate-400">✓</span>{t}</li>
                   ))}
                 </ul>
@@ -94,39 +103,39 @@ export default function GuidePage() {
 
           {/* 3 */}
           <section id="projects">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">3. Проекты и invite-коды</h2>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">3. Projects and invite codes</h2>
             <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
-              <p>Каждый проект — отдельная команда. При создании проекта автоматически генерируется уникальный invite-код вида <code className="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 font-mono">XK9T-Y2MB</code>.</p>
-              <p>Чтобы пригласить коллегу: скопируй код из карточки проекта на странице проектов и отправь ему. Коллега нажимает "Join by code" и вводит код.</p>
-              <p>Навыки участников указываются через запятую в панели Members (кнопка "👥 Members" внутри проекта). Например: <code className="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-xs">React, TypeScript, Node</code></p>
+              <p>Each project is a separate team. When creating a project, a unique invite code is generated like <code className="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 font-mono">XK9T-Y2MB</code>.</p>
+              <p>To invite a colleague: copy the code from the project card and send it. The colleague clicks "Join by code" and enters the code.</p>
+              <p>Member skills are set comma-separated in the Members panel (the "👥 Members" button inside the project). For example: <code className="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-xs">React, TypeScript, Node</code></p>
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                <p className="text-amber-700 font-medium text-xs mb-1">⚠️ Важно</p>
-                <p className="text-amber-600 text-xs">Навыки нужно указать ДО запуска оптимизации — иначе алгоритм не сможет правильно распределить задачи.</p>
+                <p className="text-amber-700 font-medium text-xs mb-1">⚠️ Important</p>
+                <p className="text-amber-600 text-xs">Skills must be set BEFORE running optimization — otherwise the algorithm cannot distribute tasks correctly.</p>
               </div>
             </div>
           </section>
 
           {/* 4 */}
           <section id="tasks">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">4. Задачи</h2>
-            <p className="text-sm text-slate-500 mb-4">При создании задачи доступны следующие поля:</p>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">4. Tasks</h2>
+            <p className="text-sm text-slate-500 mb-4">When creating a task the following fields are available:</p>
             <div className="card overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="text-left px-4 py-2.5 font-medium text-slate-600">Поле</th>
-                    <th className="text-left px-4 py-2.5 font-medium text-slate-600">Описание</th>
+                    <th className="text-left px-4 py-2.5 font-medium text-slate-600">Field</th>
+                    <th className="text-left px-4 py-2.5 font-medium text-slate-600">Description</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {[
-                    ['Название', 'Что нужно сделать'],
-                    ['Длительность', 'Сколько часов займёт задача'],
-                    ['Навык', 'Какой навык нужен исполнителю (например React)'],
-                    ['Приоритет', '1 (низкий) — 5 (критический). Влияет на порядок планирования'],
-                    ['Дедлайн', 'День от старта проекта к которому задача должна быть готова'],
-                    ['Зависимости', 'Задачи которые должны быть выполнены перед этой'],
-                    ['Статус', 'To Do / In Progress / Done'],
+                    ['Name', 'What needs to be done'],
+                    ['Duration', 'How many hours the task will take'],
+                    ['Skill', 'What skill the assignee needs (e.g. React)'],
+                    ['Priority', '1 (low) — 5 (critical). Affects the planning order'],
+                    ['Deadline', 'Day from project start by which the task must be done'],
+                    ['Dependencies', 'Tasks that must be completed before this one'],
+                    ['Status', 'To Do / In Progress / Done'],
                   ].map(([f, d]) => (
                     <tr key={f} className="hover:bg-slate-50">
                       <td className="px-4 py-2.5 font-medium text-slate-700">{f}</td>
@@ -140,31 +149,31 @@ export default function GuidePage() {
 
           {/* 5 */}
           <section id="optimize">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">5. Оптимизация</h2>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">5. Optimization</h2>
             <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
-              <p>Кнопка <span className="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded font-medium">✨ Optimize</span> доступна только менеджеру. После нажатия алгоритм:</p>
+              <p>The <span className="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded font-medium">✨ Optimize</span> button is available to managers only. After clicking, the algorithm:</p>
               <ol className="space-y-2 list-decimal list-inside">
-                <li>Берёт все задачи проекта</li>
-                <li>Берёт всех участников с их навыками и часами в день</li>
-                <li>Запускает генетический алгоритм (50 особей × 30 поколений)</li>
-                <li>Назначает задачи исполнителям и сохраняет в БД</li>
-                <li>Показывает результат: score, количество назначенных задач и предупреждения</li>
+                <li>Takes all project tasks</li>
+                <li>Takes all members with their skills and hours per day</li>
+                <li>Runs the genetic algorithm (50 individuals × 30 generations)</li>
+                <li>Assigns tasks to members and saves to the database</li>
+                <li>Shows the result: score, number of assigned tasks, and warnings</li>
               </ol>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-blue-700 font-medium text-xs mb-1">💡 Совет</p>
-                <p className="text-blue-600 text-xs">После оптимизации можно вручную переназначить любую задачу — просто открой задачу и смени исполнителя. Это не отменяет остальные назначения.</p>
+                <p className="text-blue-700 font-medium text-xs mb-1">💡 Tip</p>
+                <p className="text-blue-600 text-xs">After optimization you can manually reassign any task — just open the task and change the assignee. This does not cancel other assignments.</p>
               </div>
             </div>
           </section>
 
           {/* 6 */}
           <section id="views">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">6. Виды плана</h2>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">6. Plan views</h2>
             <div className="space-y-4">
               {[
-                { icon: '📋', title: 'Table (Таблица)', desc: 'Все задачи в виде таблицы. Есть фильтры по статусу, исполнителю, приоритету и поиск по названию. Статус можно менять прямо в таблице.' },
-                { icon: '📌', title: 'Kanban', desc: 'Три колонки: To Do, In Progress, Done. Задачи можно перетаскивать между колонками drag & drop. Цвет левой полоски = приоритет задачи.' },
-                { icon: '📅', title: 'Gantt (Диаграмма Ганта)', desc: 'Временная шкала с полосками задач. Показывает кто что делает в какие дни. Красная полоска = задача просрочена. Внизу — метрики нагрузки каждого участника.' },
+                { icon: '📋', title: 'Table', desc: 'All tasks in a table. Filters by status, assignee, priority, and search by name. Status can be changed directly in the table.' },
+                { icon: '📌', title: 'Kanban', desc: 'Three columns: To Do, In Progress, Done. Tasks can be dragged between columns. Left border color = task priority.' },
+                { icon: '📅', title: 'Gantt chart', desc: 'A timeline with task bars. Shows who does what on which days. Red bar = task is overdue. Below — workload metrics for each member.' },
               ].map((v) => (
                 <div key={v.title} className="card p-5 flex gap-4">
                   <span className="text-2xl shrink-0">{v.icon}</span>
@@ -179,24 +188,24 @@ export default function GuidePage() {
 
           {/* 7 */}
           <section id="algo">
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">7. Как работает алгоритм</h2>
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200">7. How the algorithm works</h2>
             <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
-              <p>Генетический алгоритм имитирует эволюцию. Каждый "вариант распределения" — это особь с набором генов (кто делает какую задачу).</p>
-              <h3 className="font-semibold text-slate-700 mt-4 mb-2">Штрафы (снижают Score)</h3>
+              <p>The genetic algorithm mimics evolution. Each "distribution variant" is an individual with a set of genes (who does which task).</p>
+              <h3 className="font-semibold text-slate-700 mt-4 mb-2">Penalties (lower the Score)</h3>
               <div className="card overflow-hidden">
                 <table className="w-full text-sm">
                   <tbody className="divide-y divide-slate-100">
                     {[
-                      ['Рабочий > 8 ч/день', '−20'],
-                      ['Рабочий > 10 ч/день', '−50'],
-                      ['Нет нужного навыка у исполнителя', '−50'],
-                      ['Каждый день просрочки дедлайна', '−30'],
-                      ['Нарушение зависимости задач', '−100'],
-                      ['Две задачи одновременно у одного', '−200'],
-                      ['Низкий приоритет раньше высокого', '−25'],
-                      ['Критическая задача в конце', '−40'],
-                      ['Дисбаланс нагрузки > 3 ч', '−15'],
-                      ['3+ переключения задач за день', '−15'],
+                      ['Worker > 8 h/day', '−20'],
+                      ['Worker > 10 h/day', '−50'],
+                      ['Assignee lacks required skill', '−50'],
+                      ['Each day past the deadline', '−30'],
+                      ['Task dependency violation', '−100'],
+                      ['Two tasks at once for one person', '−200'],
+                      ['Low priority before high priority', '−25'],
+                      ['Critical task scheduled last', '−40'],
+                      ['Workload imbalance > 3 h', '−15'],
+                      ['3+ task switches per day', '−15'],
                     ].map(([label, val]) => (
                       <tr key={label} className="hover:bg-slate-50">
                         <td className="px-4 py-2 text-slate-500">{label}</td>
@@ -206,14 +215,14 @@ export default function GuidePage() {
                   </tbody>
                 </table>
               </div>
-              <h3 className="font-semibold text-slate-700 mt-4 mb-2">Бонусы (повышают Score)</h3>
+              <h3 className="font-semibold text-slate-700 mt-4 mb-2">Bonuses (raise the Score)</h3>
               <div className="card overflow-hidden">
                 <table className="w-full text-sm">
                   <tbody className="divide-y divide-slate-100">
                     {[
-                      ['Все загружены равномерно (6–7 ч/день)', '+50'],
-                      ['Высокоприоритетные задачи идут первыми', '+20'],
-                      ['Критическая задача выполняется рано', '+30'],
+                      ['Everyone loaded evenly (6–7 h/day)', '+50'],
+                      ['High-priority tasks come first', '+20'],
+                      ['Critical task completed early', '+30'],
                     ].map(([label, val]) => (
                       <tr key={label} className="hover:bg-slate-50">
                         <td className="px-4 py-2 text-slate-500">{label}</td>
@@ -228,11 +237,17 @@ export default function GuidePage() {
         </div>
 
         <div className="mt-16 card p-8 text-center bg-indigo-50 border-indigo-100">
-          <h2 className="text-xl font-bold text-slate-800 mb-2">Готов начать?</h2>
-          <p className="text-slate-500 text-sm mb-6">Создай проект и попробуй оптимизацию прямо сейчас</p>
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Ready to start?</h2>
+          <p className="text-slate-500 text-sm mb-6">Create a project and try optimization right now</p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Link href="/register" className="btn-primary px-8 py-2.5">Зарегистрироваться →</Link>
-            <Link href="/login" className="btn-secondary px-8 py-2.5">Войти</Link>
+            {session ? (
+              <Link href="/projects" className="btn-primary px-8 py-2.5">My projects →</Link>
+            ) : (
+              <>
+                <Link href="/register" className="btn-primary px-8 py-2.5">Sign up →</Link>
+                <Link href="/login" className="btn-secondary px-8 py-2.5">Login</Link>
+              </>
+            )}
           </div>
         </div>
       </main>
@@ -241,8 +256,8 @@ export default function GuidePage() {
         <Link href="/" className="text-lg font-bold text-indigo-600">Taskly</Link>
         <p className="text-sm text-slate-400">Smart task distribution with genetic algorithm</p>
         <div className="flex gap-4">
-          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600">Главная</Link>
-          <Link href="/login" className="text-sm text-slate-400 hover:text-slate-600">Войти</Link>
+          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600">Home</Link>
+          <Link href="/login" className="text-sm text-slate-400 hover:text-slate-600">Login</Link>
         </div>
       </footer>
     </div>

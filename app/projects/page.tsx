@@ -19,6 +19,7 @@ export default function ProjectsPage() {
   const [showCreate, setShowCreate] = useState(false)
   const [showJoin, setShowJoin] = useState(false)
   const [createName, setCreateName] = useState('')
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
   const [joinCode, setJoinCode] = useState('')
   const [error, setError] = useState('')
 
@@ -41,12 +42,13 @@ export default function ProjectsPage() {
     const res = await fetch('/api/projects', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: createName }),
+      body: JSON.stringify({ name: createName, start_date: startDate }),
     })
     const data = await res.json()
     if (!res.ok) { setError(data.error); return }
     setShowCreate(false)
     setCreateName('')
+    setStartDate(new Date().toISOString().split('T')[0])
     loadProjects()
   }
 
@@ -73,7 +75,10 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-indigo-600">Taskly</h1>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors">Taskly</Link>
+          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600 transition-colors">← Home</Link>
+        </div>
         <div className="flex gap-3">
           <button onClick={() => { setShowJoin(true); setShowCreate(false); setError('') }} className="btn-secondary">
             Join by code
@@ -94,16 +99,30 @@ export default function ProjectsPage() {
         {showCreate && (
           <div className="card p-5 mb-6">
             <h3 className="font-medium text-slate-700 mb-3">New Project</h3>
-            <form onSubmit={handleCreate} className="flex gap-3">
-              <input
-                className="input flex-1"
-                value={createName}
-                onChange={e => setCreateName(e.target.value)}
-                placeholder="Project name"
-                required
-              />
-              <button type="submit" className="btn-primary">Create</button>
-              <button type="button" onClick={() => setShowCreate(false)} className="btn-secondary">Cancel</button>
+            <form onSubmit={handleCreate} className="space-y-3">
+              <div className="flex gap-3">
+                <input
+                  className="input flex-1"
+                  value={createName}
+                  onChange={e => setCreateName(e.target.value)}
+                  placeholder="Project name"
+                  required
+                />
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-slate-500">Start date</label>
+                  <input
+                    type="date"
+                    className="input"
+                    value={startDate}
+                    onChange={e => setStartDate(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button type="submit" className="btn-primary">Create</button>
+                <button type="button" onClick={() => setShowCreate(false)} className="btn-secondary">Cancel</button>
+              </div>
             </form>
             {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
           </div>

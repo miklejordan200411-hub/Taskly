@@ -217,6 +217,7 @@ export default function ProjectPage() {
               tasks={filteredTasks}
               members={members}
               onTaskClick={setSelectedTask}
+              startDate={project?.start_date}
             />
           )}
         </main>
