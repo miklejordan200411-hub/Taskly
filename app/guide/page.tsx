@@ -22,7 +22,6 @@ export default async function GuidePage() {
 
       <main className="max-w-3xl mx-auto px-6 py-16">
         <div className="mb-10">
-          <Link href="/" className="text-sm text-slate-400 hover:text-slate-600 transition-colors">← Back to home</Link>
           <h1 className="text-4xl font-bold text-slate-800 mt-4 mb-3">Guide</h1>
           <p className="text-slate-500 text-lg">Everything you need to know to get started with Taskly</p>
         </div>
