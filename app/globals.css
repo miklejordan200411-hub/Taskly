@@ -97,3 +97,62 @@
 }
 .landing-nav-link { transition: color 0.2s; }
 .landing-nav-link:hover { color: white !important; }
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.4; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-animated:active {
+  transform: scale(0.96);
+}
+
+.btn-animated .ripple-el {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  animation: ripple 0.55s linear;
+  pointer-events: none;
+}
+
+.nav-btn {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: #4f46e5;
+  transition: width 0.25s ease;
+}
+
+.nav-btn:hover::after {
+  width: 100%;
+}
+
+.nav-btn:active {
+  transform: translateY(1px);
+}
+
+.section-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.section-card:hover {
+  box-shadow: 0 8px 30px rgba(79, 70, 229, 0.1);
+  transform: translateY(-2px);
+}

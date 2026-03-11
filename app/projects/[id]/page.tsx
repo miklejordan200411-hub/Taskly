@@ -108,7 +108,7 @@ export default function ProjectPage() {
           </div>
           <div className="flex gap-2">
             <button onClick={() => setShowMembers(v => !v)} className="btn-secondary text-sm">
-              👥 Members ({members.length})
+               Members ({members.length})
             </button>
             {isManager && (
               <>
@@ -117,7 +117,7 @@ export default function ProjectPage() {
                   disabled={optimizing}
                   className="btn-primary text-sm"
                 >
-                  {optimizing ? '⚙️ Optimizing...' : '✨ Optimize'}
+                  {optimizing ? ' Optimizing...' : ' Optimize'}
                 </button>
                 <button onClick={() => setShowCreateTask(true)} className="btn-primary text-sm">
                   + Task

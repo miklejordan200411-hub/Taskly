@@ -6,358 +6,654 @@ export default async function Home() {
   const session = await getSession()
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-        <span className="text-xl font-bold text-indigo-600">Taskly</span>
-        <nav className="hidden sm:flex items-center gap-6">
-          <a href="#features" className="text-sm text-slate-500 hover:text-slate-800 transition-colors">Features</a>
-          <a href="#how" className="text-sm text-slate-500 hover:text-slate-800 transition-colors">How it works</a>
-          <a href="#algo" className="text-sm text-slate-500 hover:text-slate-800 transition-colors">Algorithm</a>
-          <Link href="/guide" className="text-sm text-slate-500 hover:text-slate-800 transition-colors">Guide</Link>
-        </nav>
-        <div className="flex gap-3">
-          {session ? (
-            <>
-              <Link href="/projects" className="btn-primary">My projects →</Link>
-              <LogoutButton />
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="btn-secondary">Login</Link>
-              <Link href="/register" className="btn-primary">Get started →</Link>
-            </>
-          )}
-        </div>
-      </header>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
-      <main>
-        {/* Hero */}
-        <section className="max-w-5xl mx-auto px-6 py-24 text-center">
-          {session ? (
-            <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-              👋 Welcome back, {session.username}
-            </div>
-          ) : (
-            <div className="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-              ✦ Smart task distribution
-            </div>
-          )}
+        :root {
+          --indigo: #4f46e5;
+          --indigo-light: #eef2ff;
+          --indigo-dark: #3730a3;
+          --slate-900: #0f172a;
+          --slate-700: #334155;
+          --slate-500: #64748b;
+          --slate-200: #e2e8f0;
+        }
 
-          <h1 className="text-5xl font-bold text-slate-800 mb-6 leading-tight">
-            Stop manually<br />
-            <span className="text-indigo-600">planning tasks</span>
-          </h1>
-          <p className="text-slate-500 text-xl max-w-2xl mx-auto mb-4 leading-relaxed">
-            Taskly uses a genetic algorithm to automatically distribute tasks across your team — considering skills, deadlines, priorities, and workload.
-          </p>
-          <p className="text-slate-400 text-base max-w-xl mx-auto mb-10">
-            The manager adds tasks, clicks "Optimize" — and gets a ready plan in seconds. No meetings, no spreadsheets, no manual matching.
-          </p>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-          <div className="flex gap-3 justify-center flex-wrap mb-16">
+        .syne { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; } to { opacity: 1; }
+        }
+        @keyframes pulse-ring {
+          0%   { transform: scale(1);   opacity: .6; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes drift {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50%       { transform: translateY(-12px) rotate(3deg); }
+        }
+        @keyframes scanline {
+          0%   { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        .hero-title   { animation: fadeUp .7s ease both; }
+        .hero-sub     { animation: fadeUp .7s .15s ease both; }
+        .hero-cta     { animation: fadeUp .7s .3s ease both; }
+        .hero-mock    { animation: fadeUp .9s .45s ease both; }
+
+        .float { animation: drift 6s ease-in-out infinite; }
+        .float-2 { animation: drift 8s 1s ease-in-out infinite; }
+
+        .grid-bg {
+          background-image:
+            linear-gradient(to right, rgba(79,70,229,.07) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(79,70,229,.07) 1px, transparent 1px);
+          background-size: 40px 40px;
+        }
+
+        .noise::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+          pointer-events: none;
+          border-radius: inherit;
+        }
+
+        .step-card {
+          transition: transform .2s, box-shadow .2s;
+        }
+        .step-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(79,70,229,.1);
+        }
+
+        .feature-card {
+          transition: transform .2s, box-shadow .2s, border-color .2s;
+          border: 1.5px solid #e2e8f0;
+        }
+        .feature-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 40px rgba(79,70,229,.12);
+          border-color: rgba(79,70,229,.3);
+        }
+
+        .score-row { transition: background .15s; }
+        .score-row:hover { background: #f8fafc; border-radius: 6px; }
+
+        .stat-pill {
+          position: relative;
+          overflow: hidden;
+        }
+        .stat-pill::after {
+          content: '';
+          position: absolute;
+          top: 0; left: -60%;
+          width: 40%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+          animation: scanline 3s ease-in-out infinite;
+        }
+
+        .accent-dot {
+          width: 10px; height: 10px;
+          border-radius: 50%;
+          background: var(--indigo);
+          position: relative;
+        }
+        .accent-dot::before {
+          content: '';
+          position: absolute;
+          inset: -4px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(79,70,229,.4);
+          animation: pulse-ring 2s ease-out infinite;
+        }
+
+        .tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: 'Syne', sans-serif;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          padding: 5px 12px;
+          border-radius: 100px;
+        }
+
+        .diagonal-line {
+          position: absolute;
+          width: 1px;
+          background: linear-gradient(to bottom, transparent, rgba(79,70,229,.2), transparent);
+        }
+
+        .corner-bracket::before,
+        .corner-bracket::after {
+          content: '';
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          border-color: rgba(79,70,229,.35);
+          border-style: solid;
+        }
+        .corner-bracket::before {
+          top: -1px; left: -1px;
+          border-width: 2px 0 0 2px;
+          border-radius: 2px 0 0 0;
+        }
+        .corner-bracket::after {
+          bottom: -1px; right: -1px;
+          border-width: 0 2px 2px 0;
+          border-radius: 0 0 2px 0;
+        }
+
+        .pill-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 3px 10px 3px 6px;
+          border-radius: 100px;
+          font-size: 11px;
+          font-weight: 500;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .pill-badge .dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+      `}</style>
+
+      <div className="min-h-screen bg-slate-50" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+
+        {/* ─── HEADER ─── */}
+        <header className="bg-white/80 backdrop-blur border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+          <span className="syne text-xl font-bold text-indigo-600 tracking-tight">Taskly</span>
+          <nav className="hidden sm:flex items-center gap-6">
+            {['Features','How it works','Algorithm'].map((label, i) => (
+              <a key={i} href={['#features','#how','#algo'][i]}
+                className="text-sm text-slate-500 hover:text-slate-800 transition-colors font-medium">
+                {label}
+              </a>
+            ))}
+            <Link href="/guide" className="text-sm text-slate-500 hover:text-slate-800 transition-colors font-medium">Guide</Link>
+          </nav>
+          <div className="flex gap-3">
             {session ? (
               <>
-                <Link href="/projects" className="btn-primary text-base px-8 py-3">Open projects →</Link>
-                <Link href="/projects?create=1" className="btn-secondary text-base px-8 py-3">+ New project</Link>
+                <Link href="/projects" className="btn-primary">My projects →</Link>
+                <LogoutButton />
               </>
             ) : (
               <>
-                <Link href="/register" className="btn-primary text-base px-8 py-3">Start for free →</Link>
-                <Link href="/guide" className="btn-secondary text-base px-8 py-3">How it works</Link>
+                <Link href="/login" className="btn-secondary">Login</Link>
+                <Link href="/register" className="btn-primary">Get started →</Link>
               </>
             )}
           </div>
+        </header>
 
-          {/* Mock kanban */}
-          <div className="card overflow-hidden shadow-lg">
-            <div className="bg-slate-100 px-4 py-3 flex items-center gap-2 border-b border-slate-200">
-              <div className="w-3 h-3 rounded-full bg-red-400" />
-              <div className="w-3 h-3 rounded-full bg-yellow-400" />
-              <div className="w-3 h-3 rounded-full bg-green-400" />
-              <span className="ml-2 text-xs text-slate-400 font-mono">taskly — Backend Team Q4</span>
-              <span className="ml-auto text-xs bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-full font-medium">✨ Optimized · Score: 1240</span>
-            </div>
-            <div className="p-6 grid grid-cols-3 gap-4">
-              {[
-                {
-                  label: 'To Do', badge: 'bg-slate-100 text-slate-600', accent: 'border-l-slate-400',
-                  tasks: ['CI/CD Setup', 'Write tests', 'API Docs']
-                },
-                {
-                  label: 'In Progress', badge: 'bg-blue-100 text-blue-600', accent: 'border-l-blue-500',
-                  tasks: ['Auth API', 'Database', 'Deploy to prod']
-                },
-                {
-                  label: 'Done', badge: 'bg-green-100 text-green-600', accent: 'border-l-green-500',
-                  tasks: ['UI Prototype', 'Spec approved', 'Design mockup']
-                },
-              ].map(col => (
-                <div key={col.label} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-medium text-slate-600">{col.label}</span>
-                    <span className={`badge ${col.badge}`}>{col.tasks.length}</span>
-                  </div>
-                  {col.tasks.map((t, i) => (
-                    <div key={i} className={`h-9 bg-white rounded-lg mb-2 border border-slate-200 border-l-4 ${col.accent} flex items-center px-3`}>
-                      <span className="text-xs text-slate-600 truncate">{t}</span>
-                    </div>
-                  ))}
+        <main>
+
+          {/* ─── HERO ─── */}
+          <section className="relative overflow-hidden">
+            {/* grid background */}
+            <div className="grid-bg absolute inset-0 pointer-events-none" />
+
+            {/* decorative blobs */}
+            <div className="float absolute top-12 right-20 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(99,102,241,.12) 0%, transparent 70%)' }} />
+            <div className="float-2 absolute bottom-20 left-12 w-56 h-56 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(79,70,229,.08) 0%, transparent 70%)' }} />
+
+            <div className="relative max-w-5xl mx-auto px-6 py-28 text-center">
+
+              {session ? (
+                <div className="hero-title inline-flex items-center gap-2 mb-6">
+                  <span className="accent-dot" />
+                  <span className="tag bg-indigo-50 text-indigo-600">
+                    Welcome back, {session.username}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Problem → Solution */}
-        <section className="bg-white border-y border-slate-200 py-20">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 bg-red-50 text-red-500 px-3 py-1 rounded-full text-xs font-medium mb-4">😤 Without Taskly</div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-4">Planning takes hours</h2>
-                <ul className="space-y-3">
-                  {[
-                    'Manager manually picks who does what',
-                    'Someone is overloaded, someone has nothing to do',
-                    'Deadlines are missed due to dependencies',
-                    'Constant meetings about task distribution',
-                    'Excel sheets that go stale immediately',
-                  ].map((t, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-500">
-                      <span className="text-red-400 mt-0.5">✗</span> {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <div className="inline-flex items-center gap-2 bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-medium mb-4">✅ With Taskly</div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-4">Algorithm handles everything in seconds</h2>
-                <ul className="space-y-3">
-                  {[
-                    'Automatic distribution by skills',
-                    'Balanced workload across the whole team',
-                    'Dependencies are respected in planning',
-                    'Optimal plan without meetings',
-                    'Three views: table, Kanban, Gantt',
-                  ].map((t, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                      <span className="text-green-500 mt-0.5">✓</span> {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features */}
-        <section id="features" className="py-20">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-800 mb-3">Everything your team needs</h2>
-              <p className="text-slate-500">From task creation to a ready plan in a few clicks</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {[
-                { icon: '🧬', title: 'Genetic algorithm', desc: '50 variants × 30 generations. Finds the optimal distribution considering all constraints simultaneously.' },
-                { icon: '🎯', title: 'Skill matching', desc: 'Each member sets their skills. The algorithm penalizes mismatches and finds the ideal task → assignee pair.' },
-                { icon: '📊', title: 'Three plan views', desc: 'Table with filters, Kanban with drag & drop, Gantt chart with a timeline.' },
-                { icon: '⚡', title: 'Priorities & deadlines', desc: 'Critical tasks (priority 5) always come first. The algorithm penalizes each day past the deadline.' },
-                { icon: '🔗', title: 'Task dependencies', desc: 'Mark that task B depends on task A — and the algorithm guarantees the correct execution order.' },
-                { icon: '📈', title: 'Workload metrics', desc: 'See who is loaded at 120% and who at 30%. The algorithm penalizes imbalance and aims for evenness.' },
-                { icon: '💬', title: 'Comments', desc: 'The team leaves comments on tasks. All task communication in one place.' },
-                { icon: '📋', title: 'Change history', desc: 'Automatic log of every task change — who, what, and when.' },
-                { icon: '🔑', title: 'Invite codes', desc: "Invite your team with one code. Manager creates a project and shares the code — that's it." },
-              ].map((f, i) => (
-                <div key={i} className="card p-6 hover:shadow-md transition-shadow">
-                  <div className="text-3xl mb-4">{f.icon}</div>
-                  <h3 className="font-semibold text-slate-800 mb-2">{f.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* How it works */}
-        <section id="how" className="bg-white border-y border-slate-200 py-20">
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-800 mb-3">How it works</h2>
-              <p className="text-slate-500">From registration to a ready plan — 5 minutes</p>
-            </div>
-            <div className="space-y-4">
-              {[
-                { num: '01', role: 'Manager', title: 'Creates a project', desc: 'Clicks "New Project", gets a unique invite code and shares it with the team.' },
-                { num: '02', role: 'Team', title: 'Joins by code', desc: 'Each member enters the invite code, sets their skills and available hours per day.' },
-                { num: '03', role: 'Manager', title: 'Adds tasks', desc: 'For each task: name, duration in hours, required skill, priority 1–5, deadline, and dependencies.' },
-                { num: '04', role: 'Algorithm', title: 'Optimizes the plan', desc: 'After clicking "Optimize", the genetic algorithm builds the optimal distribution in seconds.' },
-                { num: '05', role: 'Team', title: 'Gets to work', desc: 'Assignees update task statuses (To Do → In Progress → Done) and write comments.' },
-              ].map((s, i) => (
-                <div key={i} className="card p-5 flex items-start gap-5">
-                  <div className="shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">{s.num}</div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-slate-800">{s.title}</h3>
-                      <span className="badge bg-slate-100 text-slate-500 text-xs">{s.role}</span>
-                    </div>
-                    <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
+              ) : (
+                <div className="hero-title inline-flex items-center gap-2 mb-6">
+                  <div className="tag bg-indigo-50 text-indigo-600">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L7.5 4.5H11L8.25 6.75L9.25 10.5L6 8.25L2.75 10.5L3.75 6.75L1 4.5H4.5L6 1Z" fill="currentColor"/></svg>
+                    Smart task distribution
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="text-center mt-10">
-              <Link href="/guide" className="btn-secondary">Full guide →</Link>
-            </div>
-          </div>
-        </section>
+              )}
 
-        {/* Algorithm */}
-        <section id="algo" className="py-20">
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-800 mb-3">Genetic algorithm</h2>
-              <p className="text-slate-500 max-w-xl mx-auto">The algorithm is inspired by evolution — the best distributions survive</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-              <div className="card p-6">
-                <h3 className="font-semibold text-slate-800 mb-4">How it works</h3>
-                <ol className="space-y-3">
-                  {[
-                    'Creates 50 random distribution variants',
-                    'Evaluates each by the Score formula',
-                    'Picks the best 30% — the elite',
-                    'Crossbreeds them to produce 50 new variants',
-                    'Repeats for 30 generations',
-                    'Returns the best variant found',
-                  ].map((s, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                      <span className="shrink-0 w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">{i + 1}</span>
-                      {s}
-                    </li>
-                  ))}
-                </ol>
+              <h1 className="hero-title syne text-6xl font-extrabold text-slate-900 mb-6 leading-[1.05] tracking-tight">
+                Stop manually<br />
+                <span style={{ color: 'var(--indigo)' }}>planning tasks</span>
+              </h1>
+
+              <p className="hero-sub text-slate-500 text-xl max-w-2xl mx-auto mb-4 leading-relaxed font-light">
+                Taskly uses a genetic algorithm to automatically distribute tasks across your team —
+                considering skills, deadlines, priorities, and workload.
+              </p>
+              <p className="hero-sub text-slate-400 text-base max-w-xl mx-auto mb-10 font-light">
+                The manager adds tasks, clicks "Optimize" — and gets a ready plan in seconds.
+                No meetings, no spreadsheets, no manual matching.
+              </p>
+
+              <div className="hero-cta flex gap-3 justify-center flex-wrap mb-20">
+                {session ? (
+                  <>
+                    <Link href="/projects" className="btn-primary text-base px-8 py-3">Open projects →</Link>
+                    <Link href="/projects?create=1" className="btn-secondary text-base px-8 py-3">+ New project</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/register" className="btn-primary text-base px-8 py-3">Start for free →</Link>
+                    <Link href="/guide" className="btn-secondary text-base px-8 py-3">How it works</Link>
+                  </>
+                )}
               </div>
-              <div className="card p-6">
-                <h3 className="font-semibold text-slate-800 mb-4">Scoring system (base Score = 1000)</h3>
-                <div className="space-y-2">
+
+              {/* ── Mock kanban ── */}
+              <div className="hero-mock card overflow-hidden shadow-xl relative corner-bracket">
+                {/* titlebar */}
+                <div className="bg-slate-100 px-4 py-3 flex items-center gap-2 border-b border-slate-200">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                  <span className="ml-3 text-xs text-slate-400 font-mono">taskly — Backend Team Q4</span>
+                  <span className="ml-auto text-xs font-semibold px-2.5 py-1 rounded-full"
+                    style={{ background: 'rgba(79,70,229,.1)', color: 'var(--indigo)' }}>
+                    Optimized · Score: 1240
+                  </span>
+                </div>
+
+                <div className="p-6 grid grid-cols-3 gap-4">
                   {[
-                    { label: 'Worker > 8 h/day', val: '−20', color: 'text-red-500' },
-                    { label: 'Worker > 10 h/day', val: '−50', color: 'text-red-600' },
-                    { label: 'Missing required skill', val: '−50', color: 'text-red-500' },
-                    { label: 'Day past deadline', val: '−30', color: 'text-red-500' },
-                    { label: 'Dependency violation', val: '−100', color: 'text-red-600' },
-                    { label: 'Two tasks at once', val: '−200', color: 'text-red-700' },
-                    { label: 'Balanced workload', val: '+50', color: 'text-green-600' },
-                    { label: 'Critical task done early', val: '+30', color: 'text-green-600' },
-                  ].map((r, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm">
-                      <span className="text-slate-500">{r.label}</span>
-                      <span className={`font-mono font-semibold ${r.color}`}>{r.val}</span>
+                    { label: 'To Do',      accent: '#94a3b8', bg: '#f8fafc', tasks: ['CI/CD Setup','Write tests','API Docs'] },
+                    { label: 'In Progress', accent: '#6366f1', bg: '#eef2ff', tasks: ['Auth API','Database','Deploy to prod'] },
+                    { label: 'Done',        accent: '#22c55e', bg: '#f0fdf4', tasks: ['UI Prototype','Spec approved','Design mockup'] },
+                  ].map(col => (
+                    <div key={col.label} className="rounded-xl p-4 border border-slate-100" style={{ background: col.bg }}>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-semibold text-slate-600 syne tracking-wide uppercase">{col.label}</span>
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white text-slate-500 border border-slate-200">{col.tasks.length}</span>
+                      </div>
+                      {col.tasks.map((t, i) => (
+                        <div key={i} className="h-9 bg-white rounded-lg mb-2 border border-slate-200 flex items-center px-3 gap-2"
+                          style={{ borderLeft: `3px solid ${col.accent}` }}>
+                          <span className="text-xs text-slate-600 truncate font-medium">{t}</span>
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
-            {/* Stats */}
-            <div className="bg-indigo-600 rounded-2xl p-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-              {[
-                { num: '50', label: 'variants', sub: 'per generation' },
-                { num: '30', label: 'generations', sub: 'iterations' },
-                { num: '11', label: 'criteria', sub: 'scoring' },
-                { num: '30%', label: 'elite', sub: 'best' },
-              ].map((s, i) => (
-                <div key={i}>
-                  <div className="text-3xl font-bold text-white mb-1">{s.num}</div>
-                  <div className="text-indigo-100 text-sm font-medium">{s.label}</div>
-                  <div className="text-indigo-300 text-xs mt-0.5">{s.sub}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* Roles */}
-        <section className="bg-white border-y border-slate-200 py-20">
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-800 mb-3">Two roles in the system</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="card p-8 border-indigo-200">
-                <div className="text-3xl mb-4">👔</div>
-                <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-xl font-bold text-slate-800">Manager</h3>
-                  <span className="badge bg-indigo-100 text-indigo-700">manager</span>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    'Creates the project and invites team',
-                    'Adds, edits and deletes tasks',
-                    'Runs optimization',
-                    'Sees all three plan views',
-                    'Assigns members manually',
-                    'Manages member skills',
-                  ].map((t, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                      <span className="text-indigo-400 mt-0.5">✓</span> {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="card p-8">
-                <div className="text-3xl mb-4">👷</div>
-                <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-xl font-bold text-slate-800">Worker</h3>
-                  <span className="badge bg-slate-100 text-slate-600">worker</span>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    'Joins the project by code',
-                    'Views their tasks',
-                    'Updates status: To Do → In Progress → Done',
-                    'Writes task comments',
-                    'Sets their skills and hours per day',
-                  ].map((t, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                      <span className="text-slate-400 mt-0.5">✓</span> {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        {/* CTA */}
-        {!session && (
-          <section className="py-20 text-center">
-            <div className="max-w-xl mx-auto px-6">
-              <h2 className="text-3xl font-bold text-slate-800 mb-4">Try it right now</h2>
-              <p className="text-slate-500 mb-8">Registration is free. Create a project and run optimization in a couple of minutes.</p>
-              <div className="flex gap-3 justify-center flex-wrap">
-                <Link href="/register" className="btn-primary text-base px-8 py-3">Sign up →</Link>
-                <Link href="/guide" className="btn-secondary text-base px-8 py-3">Read the guide</Link>
+          {/* ─── PROBLEM / SOLUTION ─── */}
+          <section className="bg-white border-y border-slate-200 py-20">
+            <div className="max-w-5xl mx-auto px-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+                {/* Without */}
+                <div className="relative">
+                  <div className="diagonal-line" style={{ height: '100%', top: 0, left: -24 }} />
+                  <div className="tag bg-red-50 text-red-500 mb-5">Without Taskly</div>
+                  <h2 className="syne text-2xl font-bold text-slate-900 mb-6">Planning takes hours</h2>
+                  <ul className="space-y-3.5">
+                    {[
+                      'Manager manually picks who does what',
+                      'Someone is overloaded, someone has nothing to do',
+                      'Deadlines are missed due to dependencies',
+                      'Constant meetings about task distribution',
+                      'Excel sheets that go stale immediately',
+                    ].map((t, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-slate-500">
+                        <span className="shrink-0 mt-1 w-4 h-4 rounded border border-red-200 bg-red-50 flex items-center justify-center">
+                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="#f87171" strokeWidth="1.5" strokeLinecap="round"/>
+                          </svg>
+                        </span>
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* With */}
+                <div className="relative">
+                  <div className="tag bg-green-50 text-green-600 mb-5">With Taskly</div>
+                  <h2 className="syne text-2xl font-bold text-slate-900 mb-6">Algorithm handles everything in seconds</h2>
+                  <ul className="space-y-3.5">
+                    {[
+                      'Automatic distribution by skills',
+                      'Balanced workload across the whole team',
+                      'Dependencies are respected in planning',
+                      'Optimal plan without meetings',
+                      'Three views: table, Kanban, Gantt',
+                    ].map((t, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                        <span className="shrink-0 mt-1 w-4 h-4 rounded border border-green-200 bg-green-50 flex items-center justify-center">
+                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                            <path d="M1.5 4L3.2 5.8L6.5 2" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </span>
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </section>
-        )}
-      </main>
 
-      <footer className="border-t border-slate-200 bg-white px-6 py-6 flex items-center justify-between flex-wrap gap-4">
-        <span className="text-lg font-bold text-indigo-600">Taskly</span>
-        <div className="flex gap-6">
-          <Link href="/guide" className="text-sm text-slate-400 hover:text-slate-600">Guide</Link>
+          {/* ─── FEATURES ─── */}
+          <section id="features" className="py-24">
+            <div className="max-w-5xl mx-auto px-6">
+              <div className="mb-14">
+                <div className="tag bg-indigo-50 text-indigo-600 mb-4">Features</div>
+                <h2 className="syne text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Everything your team needs</h2>
+                <p className="text-slate-500 text-lg font-light">From task creation to a ready plan in a few clicks</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9" strokeLinecap="round"/><path d="M16 12l3-9 3 3-9 3" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="2"/></svg>,
+                    title: 'Genetic algorithm',
+                    desc: '50 variants × 30 generations. Finds the optimal distribution considering all constraints simultaneously.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 5v2M12 17v2M5 12H7M17 12h2M7.05 7.05l1.41 1.41M15.54 15.54l1.41 1.41M7.05 16.95l1.41-1.41M15.54 8.46l1.41-1.41"/></svg>,
+                    title: 'Skill matching',
+                    desc: 'Each member sets their skills. The algorithm penalizes mismatches and finds the ideal task → assignee pair.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>,
+                    title: 'Three plan views',
+                    desc: 'Table with filters, Kanban with drag & drop, Gantt chart with a timeline.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+                    title: 'Priorities & deadlines',
+                    desc: 'Critical tasks (priority 5) always come first. The algorithm penalizes each day past the deadline.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
+                    title: 'Task dependencies',
+                    desc: 'Mark that task B depends on task A — and the algorithm guarantees the correct execution order.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>,
+                    title: 'Workload metrics',
+                    desc: 'See who is loaded at 120% and who at 30%. The algorithm penalizes imbalance and aims for evenness.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+                    title: 'Comments',
+                    desc: 'The team leaves comments on tasks. All task communication in one place.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+                    title: 'Change history',
+                    desc: 'Automatic log of every task change — who, what, and when.'
+                  },
+                  {
+                    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg>,
+                    title: 'Invite codes',
+                    desc: 'Invite your team with one code. Manager creates a project and shares the code — that\'s it.'
+                  },
+                ].map((f, i) => (
+                  <div key={i} className="feature-card bg-white rounded-2xl p-6">
+                    <div className="w-10 h-10 rounded-xl mb-5 flex items-center justify-center"
+                      style={{ background: 'var(--indigo-light)', color: 'var(--indigo)' }}>
+                      <div style={{ width: 20, height: 20 }}>{f.icon}</div>
+                    </div>
+                    <h3 className="syne font-semibold text-slate-900 mb-2 text-[15px]">{f.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed font-light">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ─── HOW IT WORKS ─── */}
+          <section id="how" className="bg-white border-y border-slate-200 py-24">
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="mb-14">
+                <div className="tag bg-indigo-50 text-indigo-600 mb-4">Process</div>
+                <h2 className="syne text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">How it works</h2>
+                <p className="text-slate-500 text-lg font-light">From registration to a ready plan — 5 minutes</p>
+              </div>
+
+              <div className="relative">
+                {/* vertical line */}
+                <div className="absolute left-[19px] top-5 bottom-5 w-px bg-gradient-to-b from-indigo-200 via-indigo-300 to-transparent hidden sm:block" />
+
+                <div className="space-y-3">
+                  {[
+                    { num: '01', role: 'Manager', color: '#4f46e5', title: 'Creates a project', desc: 'Clicks "New Project", gets a unique invite code and shares it with the team.' },
+                    { num: '02', role: 'Team',    color: '#6366f1', title: 'Joins by code', desc: 'Each member enters the invite code, sets their skills and available hours per day.' },
+                    { num: '03', role: 'Manager', color: '#4f46e5', title: 'Adds tasks', desc: 'For each task: name, duration in hours, required skill, priority 1–5, deadline, and dependencies.' },
+                    { num: '04', role: 'Algorithm',color:'#818cf8', title: 'Optimizes the plan', desc: 'After clicking "Optimize", the genetic algorithm builds the optimal distribution in seconds.' },
+                    { num: '05', role: 'Team',    color: '#6366f1', title: 'Gets to work', desc: 'Assignees update task statuses (To Do → In Progress → Done) and write comments.' },
+                  ].map((s, i) => (
+                    <div key={i} className="step-card card p-5 flex items-start gap-5">
+                      <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white syne z-10 relative"
+                        style={{ background: s.color }}>
+                        {s.num}
+                      </div>
+                      <div className="flex-1 pt-0.5">
+                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                          <h3 className="syne font-semibold text-slate-900">{s.title}</h3>
+                          <span className="pill-badge bg-slate-100 text-slate-500">
+                            <span className="dot bg-slate-400" />
+                            {s.role}
+                          </span>
+                        </div>
+                        <p className="text-sm text-slate-500 leading-relaxed font-light">{s.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-10">
+                <Link href="/guide" className="btn-secondary">Full guide →</Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ─── ALGORITHM ─── */}
+          <section id="algo" className="py-24">
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="mb-14">
+                <div className="tag bg-indigo-50 text-indigo-600 mb-4">Under the hood</div>
+                <h2 className="syne text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Genetic algorithm</h2>
+                <p className="text-slate-500 text-lg font-light max-w-xl">Inspired by evolution — the best distributions survive and crossbreed</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="card p-6">
+                  <h3 className="syne font-bold  mb-5 text-sm uppercase tracking-widest text-indigo-600">How it works</h3>
+                  <ol className="space-y-3">
+                    {[
+                      'Creates 50 random distribution variants',
+                      'Evaluates each by the Score formula',
+                      'Picks the best 30% — the elite',
+                      'Crossbreeds them to produce 50 new variants',
+                      'Repeats for 30 generations',
+                      'Returns the best variant found',
+                    ].map((s, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                        <span className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold syne text-white"
+                          style={{ background: `rgba(79,70,229,${0.4 + i * 0.1})` }}>
+                          {i + 1}
+                        </span>
+                        {s}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                <div className="card p-6">
+                  <h3 className="syne font-bold mb-5 text-sm uppercase tracking-widest text-indigo-600">Scoring (base = 1000)</h3>
+                  <div className="space-y-1">
+                    {[
+                      { label: 'Worker > 8 h/day',      val: '−20',  color: '#f87171' },
+                      { label: 'Worker > 10 h/day',     val: '−50',  color: '#ef4444' },
+                      { label: 'Missing required skill', val: '−50',  color: '#f87171' },
+                      { label: 'Day past deadline',      val: '−30',  color: '#f87171' },
+                      { label: 'Dependency violation',   val: '−100', color: '#dc2626' },
+                      { label: 'Two tasks at once',      val: '−200', color: '#b91c1c' },
+                      { label: 'Balanced workload',      val: '+50',  color: '#22c55e' },
+                      { label: 'Critical task done early',val: '+30', color: '#16a34a' },
+                    ].map((r, i) => (
+                      <div key={i} className="score-row flex items-center justify-between px-2 py-1.5 text-sm">
+                        <span className="text-slate-500">{r.label}</span>
+                        <span className="font-mono font-bold text-xs" style={{ color: r.color }}>{r.val}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats bar */}
+              <div className="noise relative rounded-2xl p-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, #3730a3 0%, #4f46e5 60%, #6366f1 100%)' }}>
+
+                {/* decorative grid */}
+                <div className="absolute inset-0 pointer-events-none"
+                  style={{
+                    backgroundImage: 'linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px)',
+                    backgroundSize: '32px 32px'
+                  }} />
+
+                {[
+                  { num: '50',  label: 'variants',    sub: 'per generation' },
+                  { num: '30',  label: 'generations', sub: 'iterations' },
+                  { num: '11',  label: 'criteria',    sub: 'scoring' },
+                  { num: '30%', label: 'elite',       sub: 'best kept' },
+                ].map((s, i) => (
+                  <div key={i} className="stat-pill relative">
+                    <div className="syne text-4xl font-extrabold text-white mb-1 tracking-tight">{s.num}</div>
+                    <div className="text-indigo-100 text-sm font-semibold syne">{s.label}</div>
+                    <div className="text-indigo-300/80 text-xs mt-0.5 font-light">{s.sub}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ─── ROLES ─── */}
+          <section className="bg-white border-y border-slate-200 py-24">
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="mb-14">
+                <div className="tag bg-indigo-50 text-indigo-600 mb-4">Access</div>
+                <h2 className="syne text-4xl font-extrabold text-slate-900 tracking-tight">Two roles in the system</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {/* Manager */}
+                <div className="feature-card relative bg-white rounded-2xl p-8" style={{ borderColor: 'rgba(79,70,229,.25)' }}>
+                  <div className="w-12 h-12 rounded-2xl mb-5 flex items-center justify-center"
+                    style={{ background: 'var(--indigo-light)' }}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" strokeWidth="1.5">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <h3 className="syne text-xl font-bold text-slate-900">Manager</h3>
+                    <span className="pill-badge bg-indigo-50 text-indigo-600">
+                      <span className="dot bg-indigo-400" />manager
+                    </span>
+                  </div>
+                  <ul className="space-y-2.5">
+                    {['Creates the project and invites team','Adds, edits and deletes tasks','Runs optimization','Sees all three plan views','Assigns members manually','Manages member skills'].map((t, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 mt-0.5">
+                          <path d="M2.5 7L5.5 10L11.5 4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Worker */}
+                <div className="feature-card bg-white rounded-2xl p-8">
+                  <div className="w-12 h-12 rounded-2xl mb-5 flex items-center justify-center bg-slate-100">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="1.5">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <h3 className="syne text-xl font-bold text-slate-900">Worker</h3>
+                    <span className="pill-badge bg-slate-100 text-slate-500">
+                      <span className="dot bg-slate-400" />worker
+                    </span>
+                  </div>
+                  <ul className="space-y-2.5">
+                    {['Joins the project by code','Views their tasks','Updates status: To Do → In Progress → Done','Writes task comments','Sets their skills and hours per day'].map((t, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 mt-0.5">
+                          <path d="M2.5 7L5.5 10L11.5 4" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ─── CTA ─── */}
           {!session && (
-            <>
-              <Link href="/login" className="text-sm text-slate-400 hover:text-slate-600">Login</Link>
-              <Link href="/register" className="text-sm text-slate-400 hover:text-slate-600">Sign up</Link>
-            </>
+            <section className="py-24 text-center">
+              <div className="max-w-2xl mx-auto px-6">
+                <div className="tag bg-indigo-50 text-indigo-600 mb-6 mx-auto w-fit">Free to start</div>
+                <h2 className="syne text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Try it right now</h2>
+                <p className="text-slate-500 mb-10 text-lg font-light">
+                  Registration is free. Create a project and run optimization in a couple of minutes.
+                </p>
+                <div className="flex gap-3 justify-center flex-wrap">
+                  <Link href="/register" className="btn-primary text-base px-8 py-3">Sign up →</Link>
+                  <Link href="/guide" className="btn-secondary text-base px-8 py-3">Read the guide</Link>
+                </div>
+              </div>
+            </section>
           )}
-        </div>
-        <p className="text-sm text-slate-400">Smart task distribution with genetic algorithm</p>
-      </footer>
-    </div>
+
+        </main>
+
+        {/* ─── FOOTER ─── */}
+        <footer className="border-t border-slate-200 bg-white px-6 py-6 flex items-center justify-between flex-wrap gap-4">
+          <span className="syne text-lg font-bold text-indigo-600">Taskly</span>
+          <div className="flex gap-6">
+            <Link href="/guide" className="text-sm text-slate-400 hover:text-slate-600">Guide</Link>
+            {!session && (
+              <>
+                <Link href="/login" className="text-sm text-slate-400 hover:text-slate-600">Login</Link>
+                <Link href="/register" className="text-sm text-slate-400 hover:text-slate-600">Sign up</Link>
+              </>
+            )}
+          </div>
+          <p className="text-sm text-slate-400 font-light">Smart task distribution with genetic algorithm</p>
+        </footer>
+      </div>
+    </>
   )
 }
