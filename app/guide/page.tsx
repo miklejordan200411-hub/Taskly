@@ -15,8 +15,7 @@ export default async function GuidePage() {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-
-        .fade-up { animation: fadeUp .55s ease both; }
+        .fade-up   { animation: fadeUp .55s ease both; }
         .fade-up-1 { animation: fadeUp .55s .1s ease both; }
         .fade-up-2 { animation: fadeUp .55s .2s ease both; }
 
@@ -28,62 +27,34 @@ export default async function GuidePage() {
         }
 
         .toc-link {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 8px 12px;
-          border-radius: 10px;
-          font-size: 13px;
-          font-weight: 500;
-          color: #64748b;
+          display: flex; align-items: center; gap: 10px;
+          padding: 8px 12px; border-radius: 10px;
+          font-size: 13px; font-weight: 500; color: #64748b;
           text-decoration: none;
           transition: background .15s, color .15s;
         }
-        .toc-link:hover {
-          background: #eef2ff;
-          color: #4f46e5;
-        }
+        .toc-link:hover { background: #eef2ff; color: #4f46e5; }
         .toc-num {
-          font-size: 10px;
-          font-weight: 700;
-          color: #a5b4fc;
-          width: 20px;
-          text-align: right;
-          flex-shrink: 0;
+          font-size: 10px; font-weight: 700; color: #a5b4fc;
+          width: 20px; text-align: right; flex-shrink: 0;
           font-variant-numeric: tabular-nums;
         }
 
         .section-title {
-          font-size: 22px;
-          font-weight: 800;
-          color: #0f172a;
-          margin-bottom: 20px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
+          font-size: 22px; font-weight: 800; color: #0f172a;
+          margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
         }
         .section-title-num {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 32px;
-          height: 32px;
-          border-radius: 10px;
-          background: #eef2ff;
-          color: #4f46e5;
-          font-size: 13px;
-          font-weight: 800;
-          flex-shrink: 0;
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 32px; height: 32px; border-radius: 10px;
+          background: #eef2ff; color: #4f46e5;
+          font-size: 13px; font-weight: 800; flex-shrink: 0;
         }
 
         .step-row {
-          display: flex;
-          gap: 16px;
-          align-items: flex-start;
-          padding: 16px;
-          border-radius: 14px;
-          border: 1.5px solid #e2e8f0;
-          background: #fff;
+          display: flex; gap: 16px; align-items: flex-start;
+          padding: 16px; border-radius: 14px;
+          border: 1.5px solid #e2e8f0; background: #fff;
           transition: box-shadow .2s, border-color .2s;
         }
         .step-row:hover {
@@ -92,10 +63,8 @@ export default async function GuidePage() {
         }
 
         .role-card {
-          border-radius: 16px;
-          border: 1.5px solid #e2e8f0;
-          background: #fff;
-          padding: 24px;
+          border-radius: 16px; border: 1.5px solid #e2e8f0;
+          background: #fff; padding: 24px;
           transition: box-shadow .2s, border-color .2s;
         }
         .role-card:hover {
@@ -104,31 +73,17 @@ export default async function GuidePage() {
         }
 
         .tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: .07em;
-          text-transform: uppercase;
-          padding: 4px 12px;
-          border-radius: 100px;
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 11px; font-weight: 700; letter-spacing: .07em;
+          text-transform: uppercase; padding: 4px 12px; border-radius: 100px;
         }
 
         .pill-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          padding: 3px 10px 3px 6px;
-          border-radius: 100px;
-          font-size: 11px;
-          font-weight: 600;
+          display: inline-flex; align-items: center; gap: 5px;
+          padding: 3px 10px 3px 6px; border-radius: 100px;
+          font-size: 11px; font-weight: 600;
         }
-        .pill-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
+        .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
         .data-table { width: 100%; border-radius: 14px; overflow: hidden; border: 1.5px solid #e2e8f0; }
         .data-table thead { background: #f8fafc; }
@@ -137,13 +92,9 @@ export default async function GuidePage() {
         .data-table tr:hover td { background: #fafbff; }
 
         .view-card {
-          display: flex;
-          gap: 16px;
-          align-items: flex-start;
-          padding: 20px;
-          border-radius: 14px;
-          border: 1.5px solid #e2e8f0;
-          background: #fff;
+          display: flex; gap: 16px; align-items: flex-start;
+          padding: 20px; border-radius: 14px;
+          border: 1.5px solid #e2e8f0; background: #fff;
           transition: box-shadow .2s, border-color .2s;
         }
         .view-card:hover {
@@ -151,21 +102,10 @@ export default async function GuidePage() {
           border-color: rgba(79,70,229,.25);
         }
 
-        .note-box {
-          border-radius: 12px;
-          padding: 14px 16px;
-          font-size: 13px;
-          line-height: 1.6;
-        }
+        .note-box { border-radius: 12px; padding: 14px 16px; font-size: 13px; line-height: 1.6; }
 
-        .sticky-toc {
-          position: sticky;
-          top: 88px;
-        }
-
-        section[id] {
-          scroll-margin-top: 88px;
-        }
+        .sticky-toc { position: sticky; top: 88px; }
+        section[id] { scroll-margin-top: 88px; }
 
         @media (max-width: 1023px) {
           .sticky-toc { position: static; }
@@ -198,7 +138,9 @@ export default async function GuidePage() {
           <div className="relative max-w-3xl mx-auto px-6 py-16">
             <div className="fade-up">
               <div className="tag bg-indigo-50 text-indigo-600 mb-5">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1L6.2 3.8H9L6.8 5.6L7.6 8.5L5 6.7L2.4 8.5L3.2 5.6L1 3.8H3.8L5 1Z" fill="currentColor"/></svg>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M5 1L6.2 3.8H9L6.8 5.6L7.6 8.5L5 6.7L2.4 8.5L3.2 5.6L1 3.8H3.8L5 1Z" fill="currentColor"/>
+                </svg>
                 Documentation
               </div>
             </div>
@@ -248,10 +190,10 @@ export default async function GuidePage() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    { title: 'Register', desc: 'Go to /register, enter your username, email and password. Takes 30 seconds.' },
+                    { title: 'Register',        desc: 'Go to /register, enter your username, email and password. Takes 30 seconds.' },
                     { title: 'Create a project', desc: 'On the projects page click "+ New Project", enter a name. You automatically become the manager.' },
                     { title: 'Invite your team', desc: 'Copy the invite code from the project card and send it to colleagues. They enter it in the "Join by code" field.' },
-                    { title: 'Add tasks', desc: 'Open the project, click "+ Task". Fill in the name, duration in hours, required skill, priority and deadline.' },
+                    { title: 'Add tasks',        desc: 'Open the project, click "+ Task". Fill in the name, duration in hours, required skill, priority and deadline.' },
                     { title: 'Run optimization', desc: 'Click "Optimize". The algorithm will distribute all tasks across the team in seconds.' },
                   ].map((s, i) => (
                     <div key={i} className="step-row">
@@ -260,7 +202,7 @@ export default async function GuidePage() {
                         {i + 1}
                       </div>
                       <div>
-                        <h3 className="font-700 text-slate-800 mb-1 text-sm" style={{ fontWeight: 700 }}>{s.title}</h3>
+                        <h3 className="text-sm text-slate-800 mb-1" style={{ fontWeight: 700 }}>{s.title}</h3>
                         <p className="text-sm text-slate-500 leading-relaxed font-light">{s.desc}</p>
                       </div>
                     </div>
@@ -345,7 +287,8 @@ export default async function GuidePage() {
                   <div className="note-box" style={{ background: '#fffbeb', border: '1.5px solid #fde68a' }}>
                     <div className="flex gap-2.5 items-start">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" className="shrink-0 mt-0.5">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                       </svg>
                       <div>
                         <p className="font-semibold text-amber-700 mb-0.5 text-xs uppercase tracking-wide">Important</p>
@@ -365,10 +308,7 @@ export default async function GuidePage() {
                 <p className="text-sm text-slate-500 mb-4 font-light">When creating a task the following fields are available:</p>
                 <table className="data-table">
                   <thead>
-                    <tr>
-                      <th>Field</th>
-                      <th>Description</th>
-                    </tr>
+                    <tr><th>Field</th><th>Description</th></tr>
                   </thead>
                   <tbody>
                     {[
@@ -377,7 +317,7 @@ export default async function GuidePage() {
                       ['Skill',        'What skill the assignee needs (e.g. React)'],
                       ['Priority',     '1 (low) — 5 (critical). Affects the planning order'],
                       ['Deadline',     'Day from project start by which the task must be done'],
-                      ['Dependencies', 'Tasks that must be completed before this one'],
+                      ['Dependencies', 'Tasks that must be completed before this one starts'],
                       ['Status',       'To Do / In Progress / Done'],
                     ].map(([f, d]) => (
                       <tr key={f as string}>
@@ -397,7 +337,9 @@ export default async function GuidePage() {
                 </div>
                 <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
                   <p>The <span className="inline-flex items-center gap-1.5 bg-indigo-100 text-indigo-700 px-2.5 py-0.5 rounded-lg font-semibold text-xs">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     Optimize
                   </span> button is available to managers only. After clicking, the algorithm:</p>
 
@@ -405,7 +347,8 @@ export default async function GuidePage() {
                     {[
                       'Takes all project tasks',
                       'Takes all members with their skills and hours per day',
-                      'Runs the genetic algorithm (50 individuals × 30 generations)',
+                      'Runs the genetic algorithm (80 individuals × 60 generations)',
+                      'Respects task dependencies — no task starts before its predecessors finish',
                       'Assigns tasks to members and saves to the database',
                       'Shows the result: score, number of assigned tasks, and warnings',
                     ].map((s, i) => (
@@ -441,24 +384,21 @@ export default async function GuidePage() {
                   {[
                     {
                       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>,
-                      color: '#4f46e5',
-                      bg: '#eef2ff',
+                      color: '#4f46e5', bg: '#eef2ff',
                       title: 'Table',
-                      desc: 'All tasks in a table. Filters by status, assignee, priority, and search by name. Status can be changed directly in the table.'
+                      desc: 'All tasks in a table. Filters by status, assignee, priority, and search by name. Status can be changed directly in the table.',
                     },
                     {
                       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="3" width="5" height="18" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>,
-                      color: '#0891b2',
-                      bg: '#ecfeff',
+                      color: '#0891b2', bg: '#ecfeff',
                       title: 'Kanban',
-                      desc: 'Three columns: To Do, In Progress, Done. Tasks can be dragged between columns. Left border color = task priority.'
+                      desc: 'Three columns: To Do, In Progress, Done. Tasks can be dragged between columns. Left border color = task priority.',
                     },
                     {
                       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M7 14h2M7 18h5M13 14h4"/></svg>,
-                      color: '#7c3aed',
-                      bg: '#f5f3ff',
+                      color: '#7c3aed', bg: '#f5f3ff',
                       title: 'Gantt chart',
-                      desc: 'A timeline with task bars. Shows who does what on which days. Red bar = task is overdue. Below — workload metrics for each member.'
+                      desc: 'A day-by-day timeline showing who works on what. Tasks are sorted by their scheduled start time. Red bar = task is overdue. Dependency arrows connect related tasks.',
                     },
                   ].map((v) => (
                     <div key={v.title} className="view-card">
@@ -482,81 +422,100 @@ export default async function GuidePage() {
                   How the algorithm works
                 </div>
                 <p className="text-sm text-slate-500 mb-6 font-light leading-relaxed">
-                  The genetic algorithm mimics evolution. Each "distribution variant" is an individual with a set of genes — who does which task. The best survive and crossbreed.
+                  The genetic algorithm mimics natural evolution. Each "schedule variant" is an individual — a set of task-to-worker assignments. The fittest variants survive, crossbreed, and mutate over 60 generations to find the optimal plan.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Penalties */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                        <path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                      </svg>
                       <span className="text-xs font-bold text-red-500 uppercase tracking-widest">Penalties</span>
                     </div>
                     <table className="data-table">
                       <tbody>
                         {[
-                          ['Worker > 8 h/day',              '−20'],
-                          ['Worker > 10 h/day',             '−50'],
-                          ['Assignee lacks required skill',  '−50'],
-                          ['Each day past the deadline',     '−30'],
-                          ['Task dependency violation',      '−100'],
-                          ['Two tasks at once for one person','−200'],
-                          ['Low priority before high',       '−25'],
-                          ['Critical task scheduled last',   '−40'],
-                          ['Workload imbalance > 3 h',       '−15'],
-                          ['3+ task switches per day',       '−15'],
+                          ['Task has no assignee',              '−500'],
+                          ['Dependency order violated',         '−1000'],
+                          ['Critical task (P5) misses deadline','−300'],
+                          ['Assignee lacks required skill',     '−150'],
+                          ['Each day past the deadline',        '−50'],
+                          ['Worker exceeds 125% daily capacity','−100'],
+                          ['Worker exceeds daily capacity',     '−40'],
+                          ['Low priority before high priority', '−30'],
+                          ['Workload imbalance across team',    '−20'],
+                          ['Worker idles < 2 h on active day',  '−5'],
                         ].map(([label, val]) => (
                           <tr key={label as string}>
                             <td style={{ color: '#64748b' }}>{label}</td>
-                            <td style={{ color: '#ef4444', fontWeight: 700, fontFamily: 'monospace', textAlign: 'right', width: '52px' }}>{val}</td>
+                            <td style={{ color: '#ef4444', fontWeight: 700, fontFamily: 'monospace', textAlign: 'right', width: '56px' }}>{val}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
 
-                  {/* Bonuses + summary */}
+                  {/* Bonuses + stats */}
                   <div className="space-y-4">
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
                         <span className="text-xs font-bold text-green-600 uppercase tracking-widest">Bonuses</span>
                       </div>
                       <table className="data-table">
                         <tbody>
                           {[
-                            ['Everyone loaded evenly (6–7 h/day)', '+50'],
-                            ['High-priority tasks come first',       '+20'],
-                            ['Critical task completed early',        '+30'],
+                            ['Workload balanced across all workers', '+60'],
+                            ['High-priority tasks scheduled first',  '+40'],
+                            ['Critical task (P5) finished early',    '+80'],
+                            ['Any task finished before deadline',    '+10'],
+                            ['Skill exactly matches task requirement','+30'],
+                            ['Dependent task follows immediately',   '+15'],
                           ].map(([label, val]) => (
                             <tr key={label as string}>
                               <td style={{ color: '#64748b' }}>{label}</td>
-                              <td style={{ color: '#22c55e', fontWeight: 700, fontFamily: 'monospace', textAlign: 'right', width: '44px' }}>{val}</td>
+                              <td style={{ color: '#22c55e', fontWeight: 700, fontFamily: 'monospace', textAlign: 'right', width: '48px' }}>{val}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
 
-                    {/* Stats */}
+                    {/* Stats card */}
                     <div className="rounded-2xl p-5 grid grid-cols-2 gap-4 text-center relative overflow-hidden"
                       style={{ background: 'linear-gradient(135deg, #3730a3, #6366f1)' }}>
                       <div className="absolute inset-0 pointer-events-none"
                         style={{
                           backgroundImage: 'linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px)',
-                          backgroundSize: '24px 24px'
+                          backgroundSize: '24px 24px',
                         }} />
                       {[
-                        { n: '50',  l: 'variants' },
-                        { n: '30',  l: 'generations' },
-                        { n: '11',  l: 'criteria' },
-                        { n: '30%', l: 'elite' },
+                        { n: '80',  l: 'individuals' },
+                        { n: '60',  l: 'generations' },
+                        { n: '10',  l: 'penalty rules' },
+                        { n: '20%', l: 'elite kept' },
                       ].map(s => (
                         <div key={s.l} className="relative">
                           <div className="text-2xl font-extrabold text-white">{s.n}</div>
                           <div className="text-indigo-200 text-xs font-medium mt-0.5">{s.l}</div>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="note-box" style={{ background: '#f0fdf4', border: '1.5px solid #bbf7d0' }}>
+                      <div className="flex gap-2.5 items-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" className="shrink-0 mt-0.5">
+                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <div>
+                          <p className="font-semibold text-green-700 mb-0.5 text-xs uppercase tracking-wide">Dependencies are hard constraints</p>
+                          <p className="text-green-600 text-xs">Task B that depends on Task A will never be scheduled to start before Task A finishes — regardless of which worker is assigned.</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
