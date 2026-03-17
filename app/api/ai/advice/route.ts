@@ -40,11 +40,11 @@ function buildPrompt(body: RequestBody): string {
 
   const upcomingLines = upcomingTasks.length > 0
     ? upcomingTasks.map(t =>
-        `- "${t.name}" (${priorityLabel(t.priority)} priority, ${t.duration}h${t.startsInDays != null ? `, starts in ${t.startsInDays} day${t.startsInDays !== 1 ? 's' : ''}` : ''}${t.deadline_days != null ? `, deadline: day ${t.deadline_days}` : ''})`
+        `- "${t.name}" (${priorityLabel(t.priority)} priority, ${t.duration}h${t.skill ? `, skill: ${t.skill}` : ''}${t.startsInDays != null ? `, starts in ${t.startsInDays} day${t.startsInDays !== 1 ? 's' : ''}` : ''}${t.deadline_days != null ? `, deadline: day ${t.deadline_days}` : ''})`
       ).join('\n')
     : '(none)'
 
-  return `You are an AI productivity advisor for a project management tool.
+  return `You are an AI productivity advisor. Be direct and specific — always mention exact task names.
 
 Worker: ${workerName}
 Today: ${weekday}, ${today}
@@ -57,20 +57,22 @@ ${todayLines}
 Upcoming tasks (next 3 days):
 ${upcomingLines}
 
-Write a short, practical daily briefing for ${workerName}. Format it exactly like this:
+Write one numbered piece of advice per task — only for tasks in today's list and upcoming list. Maximum 10 points total. Do not add generic advice not tied to a specific task.
 
-${tasksToday.length > 0
-  ? `Advice:\n\n1. [First recommendation based on today's highest-priority or most urgent task]\n2. [Second recommendation]\n3. [Third recommendation about workload management or preparation]`
-  : `You have no tasks scheduled for today.\n\nSuggestion:\n\n[1-2 sentences about what to prepare based on upcoming tasks]\n\nRecommended:\n• [specific preparation action]\n• [specific preparation action]`
-}
+Advice:
 
-Rules:
-- Be direct and specific, mention task names
-- Keep each point to 1-2 sentences max
-- No greetings, no sign-offs, no markdown headers
-- Sound like a smart colleague, not a corporate chatbot
-- If workload > 90%, warn about overload
-- If workload < 30%, suggest proactive preparation`
+[Numbered list — one point per task]
+
+Hard rules — follow these exactly:
+- Address ${workerName} directly using "you" and "your" — never use their name or third person like "he", "she", "Alnazar"
+- One numbered point per task, do not add extra points beyond the task list
+- Every point must contain the task name in quotes
+- Only give advice about tasks that exist in the lists above — do not invent generic tips
+- Use action verbs: "complete", "finish", "start", "review", "prepare", "test" — never "consider" or "think about"
+- If a task deadline is tomorrow or day 1, say "deadline tomorrow" explicitly
+- If workload > 85%, add a warning about overload at the end — otherwise no workload comment
+- Maximum 2 sentences per point
+- No greetings, no sign-offs, no markdown headers or bullets`
 }
 
 export async function POST(req: Request) {
@@ -95,7 +97,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
         max_tokens: 400,
-        temperature: 0.7,
+        temperature: 0.5,
         messages: [{ role: 'user', content: prompt }],
       }),
     })
