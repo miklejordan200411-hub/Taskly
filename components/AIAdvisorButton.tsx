@@ -147,6 +147,7 @@ export default function AIAdvisorButton({ tasks, members, currentUserId, startDa
           weekday,
           workloadPct: pct,
           hoursPerDay: hpd,
+          workerSkills: member?.skills ?? [],
           tasksToday: tasksToday.map(t => ({
             name: t.name, skill: t.skill, duration: t.duration,
             priority: t.priority, deadline_days: t.deadline_days,

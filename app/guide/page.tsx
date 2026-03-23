@@ -168,7 +168,6 @@ export default async function GuidePage() {
                     [4, 'Tasks',            '#tasks'],
                     [5, 'Optimization',     '#optimize'],
                     [6, 'Plan views',       '#views'],
-                    [7, 'Algorithm',        '#algo'],
                   ].map(([num, label, href]) => (
                     <a key={href as string} href={href as string} className="toc-link">
                       <span className="toc-num">{String(num).padStart(2,'0')}</span>
@@ -347,7 +346,6 @@ export default async function GuidePage() {
                     {[
                       'Takes all project tasks',
                       'Takes all members with their skills and hours per day',
-                      'Runs the genetic algorithm (80 individuals × 60 generations)',
                       'Respects task dependencies — no task starts before its predecessors finish',
                       'Assigns tasks to members and saves to the database',
                       'Shows the result: score, number of assigned tasks, and warnings',
@@ -415,112 +413,6 @@ export default async function GuidePage() {
                 </div>
               </section>
 
-              {/* 7 — Algorithm */}
-              <section id="algo">
-                <div className="section-title">
-                  <span className="section-title-num">7</span>
-                  How the algorithm works
-                </div>
-                <p className="text-sm text-slate-500 mb-6 font-light leading-relaxed">
-                  The genetic algorithm mimics natural evolution. Each "schedule variant" is an individual — a set of task-to-worker assignments. The fittest variants survive, crossbreed, and mutate over 60 generations to find the optimal plan.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Penalties */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
-                        <path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                      </svg>
-                      <span className="text-xs font-bold text-red-500 uppercase tracking-widest">Penalties</span>
-                    </div>
-                    <table className="data-table">
-                      <tbody>
-                        {[
-                          ['Task has no assignee',              '−500'],
-                          ['Dependency order violated',         '−1000'],
-                          ['Critical task (P5) misses deadline','−300'],
-                          ['Assignee lacks required skill',     '−150'],
-                          ['Each day past the deadline',        '−50'],
-                          ['Worker exceeds 125% daily capacity','−100'],
-                          ['Worker exceeds daily capacity',     '−40'],
-                          ['Low priority before high priority', '−30'],
-                          ['Workload imbalance across team',    '−20'],
-                          ['Worker idles < 2 h on active day',  '−5'],
-                        ].map(([label, val]) => (
-                          <tr key={label as string}>
-                            <td style={{ color: '#64748b' }}>{label}</td>
-                            <td style={{ color: '#ef4444', fontWeight: 700, fontFamily: 'monospace', textAlign: 'right', width: '56px' }}>{val}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Bonuses + stats */}
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                        <span className="text-xs font-bold text-green-600 uppercase tracking-widest">Bonuses</span>
-                      </div>
-                      <table className="data-table">
-                        <tbody>
-                          {[
-                            ['Workload balanced across all workers', '+60'],
-                            ['High-priority tasks scheduled first',  '+40'],
-                            ['Critical task (P5) finished early',    '+80'],
-                            ['Any task finished before deadline',    '+10'],
-                            ['Skill exactly matches task requirement','+30'],
-                            ['Dependent task follows immediately',   '+15'],
-                          ].map(([label, val]) => (
-                            <tr key={label as string}>
-                              <td style={{ color: '#64748b' }}>{label}</td>
-                              <td style={{ color: '#22c55e', fontWeight: 700, fontFamily: 'monospace', textAlign: 'right', width: '48px' }}>{val}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    {/* Stats card */}
-                    <div className="rounded-2xl p-5 grid grid-cols-2 gap-4 text-center relative overflow-hidden"
-                      style={{ background: 'linear-gradient(135deg, #3730a3, #6366f1)' }}>
-                      <div className="absolute inset-0 pointer-events-none"
-                        style={{
-                          backgroundImage: 'linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px)',
-                          backgroundSize: '24px 24px',
-                        }} />
-                      {[
-                        { n: '80',  l: 'individuals' },
-                        { n: '60',  l: 'generations' },
-                        { n: '10',  l: 'penalty rules' },
-                        { n: '20%', l: 'elite kept' },
-                      ].map(s => (
-                        <div key={s.l} className="relative">
-                          <div className="text-2xl font-extrabold text-white">{s.n}</div>
-                          <div className="text-indigo-200 text-xs font-medium mt-0.5">{s.l}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="note-box" style={{ background: '#f0fdf4', border: '1.5px solid #bbf7d0' }}>
-                      <div className="flex gap-2.5 items-start">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" className="shrink-0 mt-0.5">
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                        </svg>
-                        <div>
-                          <p className="font-semibold text-green-700 mb-0.5 text-xs uppercase tracking-wide">Dependencies are hard constraints</p>
-                          <p className="text-green-600 text-xs">Task B that depends on Task A will never be scheduled to start before Task A finishes — regardless of which worker is assigned.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
               {/* CTA */}
               <div className="rounded-2xl p-10 text-center relative overflow-hidden"
                 style={{ background: 'linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%)', border: '1.5px solid #c7d2fe' }}>
@@ -550,7 +442,6 @@ export default async function GuidePage() {
 
         <footer className="border-t border-slate-200 bg-white px-6 py-6 flex items-center justify-between flex-wrap gap-4 mt-8">
           <Link href="/" className="text-lg font-extrabold text-indigo-600 tracking-tight">Taskly</Link>
-          <p className="text-sm text-slate-400 font-light">Smart task distribution with genetic algorithm</p>
           <div className="flex gap-4">
             <Link href="/" className="text-sm text-slate-400 hover:text-slate-600">Home</Link>
             {!session && <Link href="/login" className="text-sm text-slate-400 hover:text-slate-600">Login</Link>}

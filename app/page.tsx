@@ -12,15 +12,7 @@ export default async function Home() {
         {/* ─── HEADER ─── */}
         <header className="bg-white/80 backdrop-blur border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
           <span className="syne text-xl font-bold text-indigo-600 tracking-tight">Taskly</span>
-          <nav className="hidden sm:flex items-center gap-6">
-            {['Features','How it works','Algorithm'].map((label, i) => (
-              <a key={i} href={['#features','#how','#algo'][i]}
-                className="text-sm text-slate-500 hover:text-slate-800 transition-colors font-medium">
-                {label}
-              </a>
-            ))}
-            <Link href="/guide" className="text-sm text-slate-500 hover:text-slate-800 transition-colors font-medium">Guide</Link>
-          </nav>
+         
           <div className="flex gap-3">
             {session ? (
               <>
@@ -82,12 +74,12 @@ export default async function Home() {
                 {session ? (
                   <>
                     <Link href="/projects" className="btn-primary text-base px-8 py-3">Open projects →</Link>
-                    <Link href="/projects?create=1" className="btn-secondary text-base px-8 py-3">+ New project</Link>
+                    <Link href="/guide" className="btn-secondary text-base px-8 py-3">Guide</Link>
                   </>
                 ) : (
                   <>
                     <Link href="/register" className="btn-primary text-base px-8 py-3">Start for free →</Link>
-                    <Link href="/guide" className="btn-secondary text-base px-8 py-3">How it works</Link>
+                    <Link href="/guide" className="btn-secondary text-base px-8 py-3">Guide</Link>
                   </>
                 )}
               </div>
@@ -297,86 +289,6 @@ export default async function Home() {
             </div>
           </section>
 
-          {/* ─── ALGORITHM ─── */}
-          <section id="algo" className="py-24">
-            <div className="max-w-4xl mx-auto px-6">
-              <div className="mb-14">
-                <div className="tag bg-indigo-50 text-indigo-600 mb-4">Under the hood</div>
-                <h2 className="syne text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Genetic algorithm</h2>
-                <p className="text-slate-500 text-lg font-light max-w-xl">Inspired by evolution — the best distributions survive and crossbreed</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="card p-6">
-                  <h3 className="syne font-bold mb-5 text-sm uppercase tracking-widest text-indigo-600">How it works</h3>
-                  <ol className="space-y-3">
-                    {[
-                      'Creates 80 random distribution variants',
-                      'Evaluates each by the Score formula (base = 1000)',
-                      'Picks the best 20% — the elite',
-                      'Tournament selection picks parents for crossbreeding',
-                      'Uniform crossover + mutation produce 80 new variants',
-                      'Repeats for 60 generations',
-                      'Returns the highest-scoring variant found',
-                    ].map((s, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                        <span className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold syne text-white"
-                          style={{ background: `rgba(79,70,229,${0.35 + i * 0.09})` }}>
-                          {i + 1}
-                        </span>
-                        {s}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-
-                <div className="card p-6">
-                  <h3 className="syne font-bold mb-5 text-sm uppercase tracking-widest text-indigo-600">Scoring (base = 1000)</h3>
-                  <div className="space-y-1">
-                    {[
-                      { label: 'Task has no assignee',           val: '−500',  color: '#b91c1c' },
-                      { label: 'Dependency order violated',      val: '−1000', color: '#7f1d1d' },
-                      { label: 'Missing required skill',         val: '−150',  color: '#ef4444' },
-                      { label: 'Critical task misses deadline',  val: '−300',  color: '#dc2626' },
-                      { label: 'Each day past deadline',         val: '−50',   color: '#f87171' },
-                      { label: 'Worker exceeds daily capacity',  val: '−40',   color: '#f87171' },
-                      { label: 'Skill exactly matches task',     val: '+30',   color: '#16a34a' },
-                      { label: 'Balanced workload across team',  val: '+60',   color: '#15803d' },
-                      { label: 'Critical task finished early',   val: '+80',   color: '#166534' },
-                      { label: 'Any task finished before deadline',val:'+10',  color: '#22c55e' },
-                    ].map((r, i) => (
-                      <div key={i} className="score-row flex items-center justify-between px-2 py-1.5 text-sm">
-                        <span className="text-slate-500">{r.label}</span>
-                        <span className="font-mono font-bold text-xs" style={{ color: r.color }}>{r.val}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats bar */}
-              <div className="noise relative rounded-2xl p-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center overflow-hidden"
-                style={{ background: 'linear-gradient(135deg, #3730a3 0%, #4f46e5 60%, #6366f1 100%)' }}>
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{
-                    backgroundImage: 'linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px)',
-                    backgroundSize: '32px 32px'
-                  }} />
-                {[
-                  { num: '80',  label: 'individuals', sub: 'per generation' },
-                  { num: '60',  label: 'generations', sub: 'iterations'     },
-                  { num: '10',  label: 'penalties',   sub: 'scoring rules'  },
-                  { num: '20%', label: 'elite',       sub: 'best kept'      },
-                ].map((s, i) => (
-                  <div key={i} className="stat-pill relative">
-                    <div className="syne text-4xl font-extrabold text-white mb-1 tracking-tight">{s.num}</div>
-                    <div className="text-indigo-100 text-sm font-semibold syne">{s.label}</div>
-                    <div className="text-indigo-300/80 text-xs mt-0.5 font-light">{s.sub}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
 
           {/* ─── ROLES ─── */}
           <section className="bg-white border-y border-slate-200 py-24">
@@ -462,7 +374,6 @@ export default async function Home() {
         <footer className="border-t border-slate-200 bg-white px-6 py-6 flex items-center justify-between flex-wrap gap-4">
           <span className="syne text-lg font-bold text-indigo-600">Taskly</span>
           <div className="flex gap-6">
-            <Link href="/guide" className="text-sm text-slate-400 hover:text-slate-600">Guide</Link>
             {!session && (
               <>
                 <Link href="/login" className="text-sm text-slate-400 hover:text-slate-600">Login</Link>
@@ -470,7 +381,7 @@ export default async function Home() {
               </>
             )}
           </div>
-          <p className="text-sm text-slate-400 font-light">Smart task distribution with genetic algorithm</p>
+          <p className="text-sm text-slate-400 font-light">Support: taskly.support@gmail.com</p>
         </footer>
 
       </div>

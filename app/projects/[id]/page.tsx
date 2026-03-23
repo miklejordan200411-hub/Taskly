@@ -57,7 +57,10 @@ export default function ProjectPage() {
   }, [optResult])
 
   useEffect(() => { loadData() }, [loadData])
-
+  useEffect(() => {
+      const interval = setInterval(() => { loadData() }, 5000)
+      return () => clearInterval(interval)
+  }, [loadData])
   const isManager = project?.role === 'manager'
 
   const filteredTasks = tasks.filter(t => {

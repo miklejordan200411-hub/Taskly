@@ -37,7 +37,7 @@ export interface Task {
   priority: 1 | 2 | 3 | 4 | 5
   deadline_days: number | null
   assigned_to: string | null
-  status: 'To Do' | 'In Progress' | 'Done'
+  status: 'To Do' | 'In Progress' | 'Done' | 'Blocked'
   created_at: string
   updated_at: string
   // joined
